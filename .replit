@@ -1,0 +1,11 @@
+run = "node server/server.js"
+entrypoint = "server/server.js"
+
+[packager]
+language = "nodejs"
+
+[languages.nodejs]
+packageManager = "npm"
+
+[deployment]
+run = ["node", "server/server.js"]
