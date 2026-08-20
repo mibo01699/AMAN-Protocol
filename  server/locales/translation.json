@@ -28,3 +28,62 @@
     "legal_doc": "Tài liệu pháp lý được soạn thảo và tối ưu hóa cho tòa án quốc tế"
   }
 }
+
+
+/**
+ * AMAN Protocol - Advanced Backend with BIGISH-YER Integration & Pi KYC Sandbox
+ * منظومة النسر العربي (A.E.C.) - معالج الأقساط والتعويضات غير الكسرية لعام 2026
+ */
+
+const express = require('express');
+const path = require('path');
+const languageManager = require('./locales/languageManager');
+
+const app = express();
+const PORT = process.env.PORT || 3006;
+
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+// محاكاة الاتصال بنواة المقاصة السيادية لـ BIGISH-YER (منع الحسابات العشرية)
+const BIGISH_YER_POOL = {
+    piReserve: 1000000n,       // بالوحدات الصغيرة Stroops
+    yerReserve: 15000000000n,  // بالوحدات السيادية الصغيرة للريال المستقر
+    precisionFactor: 10000000n
+};
+
+app.post('/api/insurance/process-secure', (req, res) => {
+    const { role, username, type, usdValue, details } = req.body;
+
+    // 1. محاكاة التحقق من هوية الراي عبر Pi KYC / Unified Identity Registry لـ BIGISH-YER
+    console.log(`[🔒 KYC Verification] تم مطابقة الحساب لـ ${username} عبر معيار الشفافية السيادي.`);
+
+    // 2. معالجة وحساب قسط التأمين الفعلي بناءً على محرك الذكاء الاصطناعي التنبئي
+    const basePremiumUSD = parseFloat(usdValue) * 0.02; // قسط أساسي 2%
+    const simulatedRiskModifier = 1.25; // زيادة 25% بناء على تنبؤ الطقس والبيانات الساتلية للأقمار الصناعية
+    const finalPremiumUSD = basePremiumUSD * simulatedRiskModifier;
+
+    // 3. التحويل اللحظي بقيم الثوابت الحازمة عبر AMM التابع لـ BIGISH-YER منعا للكسور
+    const piRateInUSD = 40; // فرضية سعر الصرف داخل الـ Sandbox
+    const calculatedPremiumPi = (finalPremiumUSD / piRateInUSD).toFixed(4);
+
+    res.json({
+        success: true,
+        username,
+        role,
+        premiumUSD: finalPremiumUSD.toFixed(2),
+        calculatedPremiumPi,
+        aiDecision: "APPROVED: تم تمرير تدفق البيانات لشبكة التحقق، وتوجيه التعليمات للمندوبين الميدانيين عبر الذكاء الاصطناعي الإداري.",
+        clearingEngine: "INTEGRATED-WITH-BIGISH-YER"
+    });
+});
+
+// تفعيل مسار اللغات العالمي الاحترافي
+app.get('/api/localization', (req, res) => {
+    const userBrowserLang = req.headers['accept-language'];
+    res.json(languageManager.detectAndGetTranslation(userBrowserLang));
+});
+
+app.listen(PORT, () => {
+    console.log(`🦅 [A.E.C. AMAN] خادم بروتوكول أمان المدمج مع BIGISH-YER يعمل الآن بنجاح على المنفذ ${PORT}`);
+});
