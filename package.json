@@ -1,0 +1,17 @@
+{
+  "name": "aman-insurance-protocol",
+  "version": "1.0.0",
+  "description": "AMAN - Decentralized Smart Insurance Protocol - Arabian Eagle Ecosystem (A.E.C.)",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "node tests/insurance_chaos.test.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "dotenv": "^16.4.5",
+    "axios": "^1.6.8"
+  },
+  "author": "Mayass Ali (mibo01699)",
+  "license": "MIT"
+}
