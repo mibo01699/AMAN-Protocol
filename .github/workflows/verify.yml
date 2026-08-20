@@ -1,36 +1,3 @@
-name: AMAN Protocol CI & Security Verification
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-jobs:
-  verify-aman:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
-
-    - name: Set up Environment
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-
-    - name: Initialize App
-      run: npm init -y
-
-    - name: Audit Security & Hardware Isolation
-      run: |
-        echo "🔍 Auditing compliance against illegal hardware interceptors..."
-        if grep -q "hardware\|modem\|bridge" server/* 2>/dev/null; then
-          echo "❌ Architecture breach detected!"
-          exit 1
-        else
-          echo "✅ Integrity verified. AMAN works flawlessly inside the decentralized boundary."
-        fi
 name: AMAN & BIGISH-YER Ecosystem Integration Check
 
 on:
