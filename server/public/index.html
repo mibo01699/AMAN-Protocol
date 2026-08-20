@@ -100,3 +100,60 @@
 </script>
 </body>
 </html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMAN Protocol Dashboard</title>
+    <style>
+        body { font-family: sans-serif; background-color: #0b0f19; color: #f1f5f9; padding: 20px; direction: ltr; }
+        .container { max-width: 800px; margin: 0 auto; background: #111827; padding: 25px; border-radius: 12px; border: 1px solid #1f2937; }
+        .card { background: #1f2937; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .btn { background: #a855f7; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; }
+        .btn:hover { background: #9333ea; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>AMAN Protocol - Decentralized Smart Insurance</h2>
+    <div class="card">
+        <h3>Pi KYC Identity & Authentication</h3>
+        <p>User Identity status verified under secure AEC framework parameters.</p>
+        <input type="text" id="username" value="@mibo01699" readonly style="width:100%; padding:10px; background:#0b0f19; color:white; border:1px solid #4b5563; border-radius:6px;">
+    </div>
+    <div class="card">
+        <h3>Submit Insurance Policy / Claim Notice</h3>
+        <select id="type" style="width:100%; padding:10px; background:#0b0f19; color:white; margin-bottom:15px; border-radius:6px;">
+            <option value="CARGO">Cargo Freight Transport</option>
+            <option value="VEHICLE">Heavy Machinery and Fleet</option>
+            <option value="INFRASTRUCTURE">Industrial Plant and Infrastructure</option>
+        </select>
+        <input type="number" id="value" value="50000" style="width:100%; padding:10px; background:#0b0f19; color:white; margin-bottom:15px; border-radius:6px;">
+        <button class="btn" onclick="triggerProcess()">Execute Secure Validation</button>
+    </div>
+    <div id="output" class="card" style="display:none; background:#1e1b4b;"></div>
+</div>
+<script>
+    async function triggerProcess() {
+        const username = document.getElementById('username').value;
+        const type = document.getElementById('type').value;
+        const usdValue = document.getElementById('value').value;
+
+        const res = await fetch('/api/insurance/process-secure', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, type, usdValue })
+        });
+        const data = await res.json();
+        
+        const out = document.getElementById('output');
+        out.style.display = 'block';
+        out.innerHTML = `<h4>Status: Success</h4><p>Premium: ${data.calculatedPremiumPi} Pi</p><p>Engine Status: Verified</p>`;
+    }
+</script>
+</body>
+</html>
+
