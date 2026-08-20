@@ -1,56 +1,32 @@
-const express = require('express');
-const path = require('path');
-const languageManager = require('./locales/languageManager');
+{
+  "ar": {
+    "title": "بروتوكول أمان للتأمين اللامركزي",
+    "premium_calc": "جاري احتساب القسط التأميني الديناميكي الحالي",
+    "claim_status": "حالة المطالبة بالتعويض",
+    "amm_rate": "سعر الصرف اللحظي عبر الـ AMM",
+    "legal_doc": "تم صياغة الوثائق القانونية المعتمدة للمحاكم الدولية"
+  },
+  "en": {
+    "title": "AMAN Decentralized Insurance Protocol",
+    "premium_calc": "Calculating current dynamic insurance premium",
+    "claim_status": "Compensation Claim Status",
+    "amm_rate": "Instant AMM conversion rate applied",
+    "legal_doc": "Legal documents drafted and optimized for international courts"
+  },
+  "zh": {
+    "title": "AMAN 去中心化保险协议",
+    "premium_calc": "正在计算当前的动态保险费",
+    "claim_status": "赔偿申请状态",
+    "amm_rate": "已应用实时 AMM 转换率",
+    "legal_doc": "已针对国际法院起草和优化法律文件"
+  },
+  "vi": {
+    "title": "Giao thức bảo hiểm phi tập trung AMAN",
+    "premium_calc": "Đang tính phí bảo hiểm động hiện tại",
+    "claim_status": "Trạng thái yêu cầu bồi thường",
+    "amm_rate": "Đã áp dụng tỷ lệ chuyển đổi AMM tức thì",
+    "legal_doc": "Tài liệu pháp lý được soạn thảo và tối ưu hóa cho tòa án quốc tế"
+  }
+}
 
-const app = express();
-const PORT = process.env.PORT || 3006;
 
-app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
-
-const BIGISH_YER_POOL = {
-    piReserve: BigInt("1000000"),
-    yerReserve: BigInt("15000000000"),
-    precisionFactor: BigInt("10000000")
-};
-
-app.post('/api/insurance/process-secure', (req, res) => {
-    try {
-        const { role, username, type, usdValue, details } = req.body;
-
-        console.log("[KYC Verification] Account matched for: " + username);
-
-        const basePremiumUSD = parseFloat(usdValue || 0) * 0.02;
-        const simulatedRiskModifier = 1.25;
-        const finalPremiumUSD = basePremiumUSD * simulatedRiskModifier;
-
-        const piRateInUSD = 40;
-        const calculatedPremiumPi = (finalPremiumUSD / piRateInUSD).toFixed(4);
-
-        res.json({
-            success: true,
-            username: username,
-            role: role,
-            premiumUSD: finalPremiumUSD.toFixed(2),
-            calculatedPremiumPi: calculatedPremiumPi,
-            aiDecision: "APPROVED: Data packet routed. Alerts dispatched to field units.",
-            clearingEngine: "INTEGRATED-WITH-BIGISH-YER",
-            poolState: {
-                piReserve: BIGISH_YER_POOL.piReserve.toString(),
-                yerReserve: BIGISH_YER_POOL.yerReserve.toString()
-            }
-        });
-    } catch (error) {
-        console.error("[AMAN Server Error]:", error);
-        res.status(500).json({ success: false, error: "Critical insurance processing error" });
-    }
-});
-
-app.get('/api/localization', (req, res) => {
-    const userBrowserLang = req.headers['accept-language'];
-    res.json(languageManager.detectAndGetTranslation(userBrowserLang));
-});
-
-app.listen(PORT, () => {
-    console.log("[A.E.C. AMAN] Secure Server activated on port: " + PORT);
-});
