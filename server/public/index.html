@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة أمان للتأمين اللامركزي - A.E.C.</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #0b0f19; color: #f1f5f9; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: #111827; padding: 25px; border-radius: 12px; border: 1px solid #1f2937; }
+        .header { text-align: center; border-bottom: 2px solid #a855f7; padding-bottom: 15px; margin-bottom: 25px; }
+        .badge { background: #10b981; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; }
+        .card { background: #1f2937; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #374151; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #c084fc; }
+        input, select, textarea { width: 100%; padding: 10px; background: #0b0f19; border: 1px solid #4b5563; border-radius: 6px; color: white; margin-bottom: 15px; box-sizing: border-box; }
+        button { background: #a855f7; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; font-size: 1rem; }
+        button:hover { background: #9333ea; }
+        .status-box { background: #1e1b4b; padding: 15px; border-right: 4px solid #6366f1; border-radius: 4px; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2>🦅 منظومة النسر العربي - بروتوكول أمان (AMAN)</h2>
+        <p>المنصة اللامركزية للتأمين الذكي وإدارة أزمات النقل والمنشآت</p>
+    </div>
+
+    <!-- قسم مصادقة وتوثيق الهوية المربوط بـ Pi KYC -->
+    <div class="card">
+        <h3>🔒 بوابة التوثيق والتحقق الرقمي (AEC Identity & Pi KYC)</h3>
+        <p>حالة الاتصال بـ Pi SDK: <span class="badge" id="kycStatus">مستعلم عنه تلقائياً</span></p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div>
+                <label>نوع الحساب بالمستودع</label>
+                <select id="userRole">
+                    <option value="BENEFICIARY">مستفيد (صاحب أصول / شحنات)</option>
+                    <option value="INSPECTOR">مندوب بشري ميداني معتمد</option>
+                </select>
+            </div>
+            <div>
+                <label>معرّف الرائد (Pi Username)</label>
+                <input type="text" id="piUsername" placeholder="@username" value="@mibo01699">
+            </div>
+        </div>
+    </div>
+
+    <!-- قسم تقديم طلبات وثائق التأمين الجديدة -->
+    <div class="card">
+        <h3>📦 طلب وثيقة تأمين أو الإقرار عن حادث</h3>
+        <form id="insuranceForm">
+            <label>نوع التغطية التأمينية المطلوب</label>
+            <select id="insuranceType">
+                <option value="CARGO">تأمين شحنات بضائع (بحري، بري، جوي)</option>
+                <option value="VEHICLE">تأمين وسائل نقل ثقيل ومعدات زراعية</option>
+                <option value="INFRASTRUCTURE">تأمين مصانع ومحطات توليد كهرباء ومزارع</option>
+            </select>
+
+            <label>القيمة التقريبية للأصول المشمولة بالدولار ($)</label>
+            <input type="number" id="assetValue" value="50000">
+
+            <label>تفاصيل ووصف الأصول أو بلاغ الأضرار (للتحقيق الميداني والـ AI)</label>
+            <textarea id="assetDetails" rows="3" placeholder="أدخل بيانات الشحنة، المسار، أو تفاصيل العطل الميكانيكي/الكارثة الطبيعية..."></textarea>
+
+            <button type="button" onclick="submitAmanRequest()">إرسال الطلب للمعالجة الفورية والـ AMM</button>
+        </form>
+    </div>
+
+    <!-- صندوق الاستجابة والربط المالي اللحظي مع BIGISH-YER -->
+    <div class="status-box" id="resultBox" style="display:none;">
+        <h4>📊 تقرير الاستجابة الفورية للمحرك المشترك (AMAN & BIGISH-YER):</h4>
+        <div id="outputContent"></div>
+    </div>
+</div>
+
+<script>
+    async function submitAmanRequest() {
+        const role = document.getElementById('userRole').value;
+        const username = document.getElementById('piUsername').value;
+        const type = document.getElementById('insuranceType').value;
+        const usdValue = document.getElementById('assetValue').value;
+        const details = document.getElementById('assetDetails').value;
+
+        // استدعاء الواجهة الخلفية الهجينة المربوطة بمجمع سيولة BIGISH-YER
+        const response = await fetch('/api/insurance/process-secure', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ role, username, type, usdValue, details })
+        });
+        
+        const data = await response.json();
+        
+        document.getElementById('resultBox').style.display = 'block';
+        document.getElementById('outputContent').innerHTML = `
+            <p><strong>حالة التوثيق (KYC):</strong> تم المصادقة على الحساب بنجاح لـ ${data.username} كـ [${data.role}]</p>
+            <p><strong>قرار الذكاء الاصطناعي التنبئي (AI):</strong> ${data.aiDecision}</p>
+            <p><strong>القسط المحسوب لحظياً:</strong> ${data.calculatedPremiumPi} Pi ($${data.premiumUSD})</p>
+            <p><strong>آلية المقاصة والتعويض المستهدفة:</strong> صرف التعويضات عبر رمز <strong>YER</strong> من مجمع السيولة المشترك لـ <strong>BIGISH-YER</strong> منعاً للكسور العشرية.</p>
+        `;
+    }
+</script>
+</body>
+</html>
