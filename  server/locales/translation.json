@@ -1,0 +1,30 @@
+{
+  "ar": {
+    "title": "بروتوكول أمان للتأمين اللامركزي",
+    "premium_calc": "جاري احتساب القسط التأميني الديناميكي الحالي",
+    "claim_status": "حالة المطالبة بالتعويض",
+    "amm_rate": "سعر الصرف اللحظي عبر الـ AMM",
+    "legal_doc": "تم صياغة الوثائق القانونية المعتمدة للمحاكم الدولية"
+  },
+  "en": {
+    "title": "AMAN Decentralized Insurance Protocol",
+    "premium_calc": "Calculating current dynamic insurance premium",
+    "claim_status": "Compensation Claim Status",
+    "amm_rate": "Instant AMM conversion rate applied",
+    "legal_doc": "Legal documents drafted and optimized for international courts"
+  },
+  "zh": {
+    "title": "AMAN 去中心化保险协议",
+    "premium_calc": "正在计算当前的动态保险费",
+    "claim_status": "赔偿申请状态",
+    "amm_rate": "已应用实时 AMM 转换率",
+    "legal_doc": "已针对国际法院起草和优化法律文件"
+  },
+  "vi": {
+    "title": "Giao thức bảo hiểm phi tập trung AMAN",
+    "premium_calc": "Đang tính phí bảo hiểm động hiện tại",
+    "claim_status": "Trạng thái yêu cầu bồi thường",
+    "amm_rate": "Đã áp dụng tỷ lệ chuyển đổi AMM tức thì",
+    "legal_doc": "Tài liệu pháp lý được soạn thảo và tối ưu hóa cho tòa án quốc tế"
+  }
+}
