@@ -8,9 +8,10 @@
     "test": "node tests/insurance_chaos.test.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
+    "@vercel/speed-insights": "^2.0.0",
+    "axios": "^1.6.8",
     "dotenv": "^16.4.5",
-    "axios": "^1.6.8"
+    "express": "^4.19.2"
   },
   "author": "Mayass Ali (mibo01699)",
   "license": "MIT"
